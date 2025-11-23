@@ -7,8 +7,8 @@
 const auto WORD = static_cast<uint4_t>(0b0000);
 const auto LD = static_cast<uint4_t>(0b0001);
 const auto ST = static_cast<uint4_t>(0b0010);
-const auto NO = static_cast<uint4_t>(0b0011);
-const auto HL = static_cast<uint4_t>(0b0100);
+const auto NOP = static_cast<uint4_t>(0b0011);
+const auto HLT = static_cast<uint4_t>(0b0100);
 const auto ADD = static_cast<uint4_t>(0b0101);
 const auto SUB = static_cast<uint4_t>(0b0110);
 const auto MUL = static_cast<uint4_t>(0b0111);

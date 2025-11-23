@@ -6,6 +6,6 @@ ST $00 A
 ST $01 B
 ST $02 C
 NOP
-HL
+HLT
 
 ST $03 C

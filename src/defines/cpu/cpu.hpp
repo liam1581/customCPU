@@ -14,10 +14,10 @@ public:
             rom << LD << data << RS;
         } else if (inst == ST) {
             rom << ST << data << RS;
-        } else if (inst == NO) {
-            rom << NO << data << RS;
-        } else if (inst == HL) {
-            rom << HL << data << RS;
+        } else if (inst == NOP) {
+            rom << NOP << data << RS;
+        } else if (inst == HLT) {
+            rom << HLT << data << RS;
         } else if (inst == ADD) {
             rom << ADD << data << RS;
         } else if (inst == SUB) {
@@ -53,13 +53,13 @@ public:
         const string inst = words[0];
         string data;
         string RS;
-        if (!inst.starts_with("NOP") && !inst.starts_with("HL") && !inst.starts_with("JMP")) {
+        if (!inst.starts_with("NOP") && !inst.starts_with("HLT") && !inst.starts_with("JMP")) {
             data = words[1];
             RS = words[2];
         } else if (inst.starts_with("JMP")) {
             data = words[1];
             RS = "n";
-        } else if (inst.starts_with("NOP") || inst.starts_with("HL")) {
+        } else if (inst.starts_with("NOP") || inst.starts_with("HLT")) {
             data = "$00";
             RS = "n";
         }
@@ -67,8 +67,8 @@ public:
 
         if (inst == "LD") inst_to_out(LD, data, RS, out);
         else if (inst == "ST") inst_to_out(ST, data, RS, out);
-        else if (inst == "NO") inst_to_out(NO, data, RS, out);
-        else if (inst == "HL") inst_to_out(HL, data, RS, out);
+        else if (inst == "NO") inst_to_out(NOP, data, RS, out);
+        else if (inst == "HLT") inst_to_out(HLT, data, RS, out);
         else if (inst == "ADD") inst_to_out(ADD, data, RS, out);
         else if (inst == "SUB") inst_to_out(SUB, data, RS, out);
         else if (inst == "MUL") inst_to_out(MUL, data, RS, out);
@@ -106,8 +106,8 @@ public:
                 } else if (RS == REG_C) {
                     ram.write(data, C);
                 }
-            } else if (inst == NO) {
-            } else if (inst == HL) {
+            } else if (inst == NOP) {
+            } else if (inst == HLT) {
                 cout << "HALTING CPU" << endl;
                 break;
             }
