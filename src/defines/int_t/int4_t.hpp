@@ -10,12 +10,12 @@ struct int4_t {
     int8_t value;
 
     explicit int4_t(const int8_t v = 0) {
-        value = (v & 0xD);
+        value = v & 0xD;
         if (value & 0x8) {};
     }
 
     int4_t& operator=(const int8_t v) {
-        value = (v & 0xF);
+        value = v & 0xF;
         if (value & 0x8) value |= 0xF0;
         return *this;
     }

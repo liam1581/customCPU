@@ -7,6 +7,8 @@ int main(int argc, char* argv[]) {
     auto ram = RAM();
     auto cpu = CPU();
 
+    CPU::clear(rom, ram);
+
     if (argc < 2) {
         cerr << "Usage: " << argv[0] << " <filename.s>" << endl;
         exit(1);
@@ -26,8 +28,9 @@ int main(int argc, char* argv[]) {
             continue;
         }
         cpu.parse(line, out);
-        for (uint8_t b : out)
+        for (uint8_t b : out) {
             cout << "0x" << uppercase << setfill('0') << setw(2) << hex << static_cast<int>(b) << " ";
+        }
 
         auto inst = static_cast<uint4_t>(out[0]);
         auto data = out[1];

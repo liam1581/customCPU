@@ -27,12 +27,19 @@ public:
         } else if (inst == JMP) {
             rom << JMP << data << RS;
         } else if (inst == WORD) {
+            cout << "WORD" << RS << endl;
             if (RS == REG_A) {
-                rom[data] = A;
+                //rom[data] = A;
+                cout << "DEBUG::A:" << static_cast<int>(A) << endl;
+                rom.write(data, A);
             } else if (RS == REG_B) {
-                rom[data] = B;
+                //rom[data] = B;
+                cout << "DEBUG::B:" << static_cast<int>(B) << endl;
+                rom.write(data, B);
             } else if (RS == REG_C) {
-                rom[data] = C;
+                //rom[data] = C;
+                cout << "DEBUG::C:" << static_cast<int>(C) << endl;
+                rom.write(data, C);
             }
         }
 
@@ -67,13 +74,13 @@ public:
 
         if (inst == "LD") inst_to_out(LD, data, RS, out);
         else if (inst == "ST") inst_to_out(ST, data, RS, out);
-        else if (inst == "NO") inst_to_out(NOP, data, RS, out);
+        else if (inst == "NOP") inst_to_out(NOP, data, RS, out);
         else if (inst == "HLT") inst_to_out(HLT, data, RS, out);
         else if (inst == "ADD") inst_to_out(ADD, data, RS, out);
         else if (inst == "SUB") inst_to_out(SUB, data, RS, out);
         else if (inst == "MUL") inst_to_out(MUL, data, RS, out);
         else if (inst == "JMP") inst_to_out(JMP, data, RS, out);
-        else if (inst == ".byte") inst_to_out(WORD, data, RS, out);
+        else if (inst == ".word") inst_to_out(WORD, data, RS, out);
 
     }
 
@@ -117,7 +124,7 @@ public:
                 } else if (RS == REG_B) {
                     B = data + B;
                 } else if (RS == REG_C) {
-                    B = data + B;
+                    C = data + C;
                 }
             } else if (inst == SUB) {
                 if (RS == REG_A) {
@@ -125,7 +132,7 @@ public:
                 } else if (RS == REG_B) {
                     B = data - B;
                 } else if (RS == REG_C) {
-                    B = data - B;
+                    C = data - C;
                 }
             } else if (inst == MUL) {
                 if (RS == REG_A) {
@@ -133,7 +140,7 @@ public:
                 } else if (RS == REG_B) {
                     B = data * B;
                 } else if (RS == REG_C) {
-                    B = data * B;
+                    C = data * C;
                 }
             } else if (inst == JMP) {
                 ROM_addr = data;
@@ -150,6 +157,7 @@ public:
              */
 
             else if (inst == 0x00) {
+                cerr << "INST:0x00" << endl;
                 break;
             } else {
                 cerr << "RUN::Unknown inst: " << static_cast<int>(inst) << endl;
@@ -157,12 +165,27 @@ public:
             }
         }
     }
+
+    static void clear(RAM &ram) {
+        for (int i = 0; i < RAM::size(); i++) {
+            ram.write(i, 0x00);
+        }
+    }
+    void static clear(ROM &rom) {
+        for (int i = 0; i < ROM::size(); i++) {
+            rom.write(i, 0x00);
+        }
+    }
+    void static clear(ROM &rom, RAM& ram) {
+        clear(rom);
+        clear(ram);
+    }
 private:
     uint8_t ROM_addr = 0;
 
-    uint8_t A;
-    uint8_t B;
-    uint8_t C;
+    uint8_t A = 0;
+    uint8_t B = 0;
+    uint8_t C = 0;
 
 
     static uint8_t parse_uint8(const std::string& input) {

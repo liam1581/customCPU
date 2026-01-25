@@ -6,6 +6,8 @@ ST $00 A
 ST $01 B
 ST $02 C
 NOP
-HLT
 
-ST $03 C
+LD $00 A
+.word $02 A
+
+HLT
